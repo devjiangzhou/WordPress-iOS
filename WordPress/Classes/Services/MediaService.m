@@ -6,6 +6,7 @@
 #import "MediaServiceRemoteXMLRPC.h"
 #import "MediaServiceRemoteREST.h"
 #import "Blog.h"
+#import "Post.h"
 #import "RemoteMedia.h"
 #import "WPAssetExporter.h"
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -298,7 +299,11 @@ NSInteger const MediaMaxImageSizeDimension = 3000;
     remoteMedia.height = media.height;
     remoteMedia.width = media.width;
     remoteMedia.localURL = media.localURL;
-    remoteMedia.mimeType = [self mimeTypeForFilename:media.filename];    
+    remoteMedia.mimeType = [self mimeTypeForFilename:media.filename];
+    if (media.posts.count == 1) {
+        Post * singlePost = (Post *)[media.posts anyObject];
+        remoteMedia.postID = singlePost.postID;
+    }
     return remoteMedia;
 }
 
